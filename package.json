@@ -1,0 +1,23 @@
+{
+  "name": "tinyapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "express_server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chanbenton/tinyapp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chanbenton/tinyapp/issues"
+  },
+  "homepage": "https://github.com/chanbenton/tinyapp#readme",
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "express": "^4.14.1"
+  }
+}

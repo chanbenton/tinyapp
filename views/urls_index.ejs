@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include partials/_header %>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>Alias</th>
+        <th>Full Link</th>
+      </tr>
+    </thead>
+    <% for (each in urls){ %>
+      <tr>
+        <td><%= each %></td>
+        <td><%= urls[each] %></td>
+      </tr>
+    <% } %>
+  </table>
+</body>
+</html>

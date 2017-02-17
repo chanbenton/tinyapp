@@ -1,14 +1,11 @@
-<title>Super Awesome</title>
+<title>Tinyapp</title>
 
 <% if (!username){ %>
-
-<form method="POST" action="/login">  	 
-  Username: <input type="text" name="username">
-  <input type="submit" value="Login">
-</form> 
+  <a href="/register">Register here!</a> |
+  <a href="/login">Login</a>
 <% } else { %>
    Logged in as <b><%= username %></b>
   <form method="POST" action="/logout">  	 
     <input type="submit" value="Logout">
   </form>
-<% }%>
+<% }%>-->

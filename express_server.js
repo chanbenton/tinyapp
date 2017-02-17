@@ -46,7 +46,7 @@ app.get("/urls/new", (req, res) => {
 app.get("/urls/:id", (req, res) => {
   let templateVars = { 
     shortURL: req.params.id,
-    urls: urlDatabase[req.params.id]
+    url: urlDatabase[req.params.id]
   };
   res.render("urls_show", templateVars);
 });
@@ -71,4 +71,14 @@ app.get("/u/:shortURL", (req, res) => {
 app.post("/urls/:id/delete", (req, res) => {
   delete urlDatabase[req.params.id];
   res.redirect('/urls');
+});
+
+app.post("/urls/:id", (req, res) => {
+  var alias = req.params.id;
+  urlDatabase[alias] = req.body.newLink;
+  let templateVars = { 
+    shortURL: alias,
+    url: urlDatabase[alias]
+  };
+  res.render("urls", templateVars);
 });

@@ -14,6 +14,7 @@
       <tr>
         <th>Alias</th>
         <th>Full Link</th>
+        <th>Edit</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -21,6 +22,7 @@
       <tr>
         <td><%= each %></td>
         <td><%= urls[each] %></td>
+        <td><a href="/urls/<%= each %>">Edit</a>
         <td>
         <form method="POST" action="/urls/<%= each %>/delete">
       <button><img class="del" src="http://cdn.osxdaily.com/wp-content/uploads/2010/07/512-TrashIcon-macosx1.png">

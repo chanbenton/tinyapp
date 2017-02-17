@@ -58,6 +58,7 @@ app.get("/urls", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // debug statement to see POST parameters
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  var randKey = generateRandomString();
+  urlDatabase[randKey] = req.body.longURL;
+  res.redirect(`/urls/${randKey}`);
 });

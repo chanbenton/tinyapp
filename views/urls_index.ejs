@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
   <% include partials/_header %>
+  <style>
+    img.del{
+      width: 20px;
+    }
+  </style>
 </head>
 <body>
   <table>
@@ -9,12 +14,18 @@
       <tr>
         <th>Alias</th>
         <th>Full Link</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <% for (each in urls){ %>
       <tr>
         <td><%= each %></td>
         <td><%= urls[each] %></td>
+        <td>
+        <form method="POST" action="/urls/<%= each %>/delete">
+      <button><img class="del" src="http://cdn.osxdaily.com/wp-content/uploads/2010/07/512-TrashIcon-macosx1.png">
+      </button>
+    </form>
       </tr>
     <% } %>
   </table>

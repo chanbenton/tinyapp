@@ -2,14 +2,25 @@
 <html lang="en">
 <head>
    <% include partials/_header %>
+   <style>
+      img.del{
+        width: 15px;
+      }
+      .inline {
+      	display:inline-block;
+      }
+   </style>
 </head>
 
 <body>
-  <form method="POST">     
+  <form class="inline" method="POST">     
     <h2>ShortURL: <%= shortURL %> </h2>
     <p>Change URL to:</p>
     <input type="text" name="newLink" value="<%= url %>">
     <input type="submit" value="Update">
   </form> 
+  <form class="inline" method="POST" action="/urls/<%= shortURL %>/delete">
+    <button><img class="del" src="http://cdn.osxdaily.com/wp-content/uploads/2010/07/512-TrashIcon-macosx1.png">Delete</button>
+  </form>
 </body>
 </html>

@@ -23,14 +23,16 @@
       <tr>  
         <td><%= each %></td>
         <td><%= urls[each].url %></td>
-        <td><a href="/urls/<%= each %>">Edit</a>
+        <td><a href="/urls/<%= each %>">Edit</a></td>
         <td>
-        <form method="POST" action="/urls/<%= each %>/delete">
-          <button><img class="del" src="http://cdn.osxdaily.com/wp-content/uploads/2010/07/512-TrashIcon-macosx1.png"></button>
-        </form>
+          <form method="POST" action="/urls/<%= each %>/delete">
+            <button><img class="del" src="http://cdn.osxdaily.com/wp-content/uploads/2010/07/512-TrashIcon-macosx1.png">Delete</button>
+          </form>
+        </td>
       </tr>
       <% } %>
     <% } %>
   </table>
+<a href = "/urls/new">Create new tinyLink</a>
 </body>
 </html>

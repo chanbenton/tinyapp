@@ -10,6 +10,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 const cookieparser = require('cookie-parser');
 app.use(cookieparser());
 
+const bcrypt = require('bcrypt');
+
 function generateRandomString() {
     var text = "";
     var charList = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -29,12 +31,12 @@ const users = {
   "ababab": {
     id: "ababab", 
     email: "user@example.com", 
-    password: "purple-monkey-dinosaur"
+    password: bcrypt.hashSync("purple-monkey-dinosaur", 10)
   },
  "user2RandomID": {
     id: "user2RandomID", 
     email: "user2@example.com", 
-    password: "dishwasher-funk"
+    password: bcrypt.hashSync("dishwasher-funk", 10)
   }
 }
 
@@ -136,7 +138,7 @@ app.post("/login", (req, res) => {
   }
   for (id in users){
     if (users[id].email === emailInput){
-      if (pwInput === users[id].password){
+      if (bcrypt.compareSync(pwInput, users[id].password)){
         res.cookie('user_Id', id);
         res.redirect("/");
         return;
@@ -184,7 +186,7 @@ app.post("/register", (req, res) => {
   users[randKey] = {
     id: randKey,
     email: emailInput,
-    password: pwInput
+    password: bcrypt.hashSync(pwInput, 10)
   };    
   res.cookie('user_Id', randKey);
   res.redirect("/");

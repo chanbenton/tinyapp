@@ -19,16 +19,17 @@
       </tr>
     </thead>
     <% for (each in urls){ %>
-      <tr>
+      <% if (urls[each].userID === user){ %>
+      <tr>  
         <td><%= each %></td>
-        <td><%= urls[each] %></td>
+        <td><%= urls[each].url %></td>
         <td><a href="/urls/<%= each %>">Edit</a>
         <td>
         <form method="POST" action="/urls/<%= each %>/delete">
-      <button><img class="del" src="http://cdn.osxdaily.com/wp-content/uploads/2010/07/512-TrashIcon-macosx1.png">
-      </button>
-    </form>
+          <button><img class="del" src="http://cdn.osxdaily.com/wp-content/uploads/2010/07/512-TrashIcon-macosx1.png"></button>
+        </form>
       </tr>
+      <% } %>
     <% } %>
   </table>
 </body>

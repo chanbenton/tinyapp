@@ -21,8 +21,8 @@ function generateRandomString() {
 }
 
 var urlDatabase = {
-  "abcdef": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "abcdef": {url: "http://www.lighthouselabs.ca", userID: "ababab"},
+  "9sm5xK": {url: "http://www.google.com", userID: "ababab"}
 };
 
 const users = { 
@@ -37,7 +37,6 @@ const users = {
     password: "dishwasher-funk"
   }
 }
-
 
 app.get("/", (req, res) => {
   res.end("Hello!");
@@ -57,16 +56,21 @@ app.get("/hello", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  let templateVars = { 
-    username: users[req.cookies.user_Id].email
-  };
-  res.render("urls_new", templateVars);
+  if (req.cookies.user_Id){
+    let templateVars = { 
+      username: users[req.cookies.user_Id].email
+    };
+    res.render("urls_new", templateVars);  
+  }
+  else {
+    res.redirect("/login");
+  }
 });
 
 app.get("/urls/:id", (req, res) => {
   let templateVars = { 
     shortURL: req.params.id,
-    url: urlDatabase[req.params.id],
+    url: urlDatabase[req.params.id].url,
     username: users[req.cookies.user_Id].email
   };
   res.render("urls_show", templateVars);
@@ -76,31 +80,50 @@ app.get("/urls/:id", (req, res) => {
 app.get("/urls", (req, res) => {
   let templateVars = { 
     urls: urlDatabase,
-    username: users[req.cookies.user_Id].email
+    username: users[req.cookies.user_Id].email,
+    user: users[req.cookies.user_Id].id
    };
   res.render("urls_index", templateVars);
 });
 
 app.post("/urls", (req, res) => {
+  if (req.cookies.user_Id){
   var randKey = generateRandomString();
-  urlDatabase[randKey] = req.body.longURL;
+  urlDatabase[randKey] = {};
+  urlDatabase[randKey].url = req.body.longURL;
+  urlDatabase[randKey].userID = users[req.cookies.user_Id].id;
   res.redirect(`/urls/${randKey}`);
+  }
+  else {
+    res.sendStatus(403);
+  }
 });
 
 app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL].full;
+  let longURL = urlDatabase[req.params.shortURL].url;
   res.redirect(longURL);
 });
 
 app.post("/urls/:id/delete", (req, res) => {
-  delete urlDatabase[req.params.id];
-  res.redirect('/urls');
+  var alias = req.params.id;
+  if (req.cookies.user_Id === urlDatabase[alias].userID){
+    delete urlDatabase[alias];
+    res.redirect('/urls');
+  }
+  else {
+    res.sendStatus(403);
+  }
 });
 
 app.post("/urls/:id", (req, res) => {
   var alias = req.params.id;
-  urlDatabase[alias] = req.body.newLink;
-  res.redirect("urls_index");
+  if (req.cookies.user_Id === urlDatabase[alias].userID){
+    urlDatabase[alias].url = req.body.newLink;
+    res.redirect("urls_index");
+  }
+  else {
+    res.sendStatus(403);
+  }
 });
 
 app.post("/login", (req, res) => {
@@ -144,6 +167,7 @@ app.post("/register", (req, res) => {
   
   var emailInput = req.body.email;
   var pwInput = req.body.password;
+
   if (!(emailInput && pwInput)){
     res.status(400).send('Please complete input on all fields as required.');
     return;
